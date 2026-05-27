@@ -1,0 +1,54 @@
+---
+import { whyUs } from '../data/site';
+
+const icons = [
+  'M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z',
+  'M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11',
+  'M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83',
+  'M3 7l9-4 9 4-9 4-9-4zM3 7v10l9 4 9-4V7M12 11v10',
+  'M12 2 4 5v6c0 5 3.4 8.3 8 9 4.6-.7 8-4 8-9V5l-8-3z',
+  'M9 18l6-6-6-6',
+];
+---
+
+<section class="section whyus section--sand grid-bg">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow">{whyUs.eyebrow}</p>
+      <h2 set:html={whyUs.h2}></h2>
+    </div>
+
+    <div class="why-grid">
+      {whyUs.points.map((p, i) => (
+        <article class="why-card" data-reveal style={`transition-delay:${(i % 3) * 0.06}s`}>
+          <span class="why-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d={icons[i % icons.length]}/></svg>
+          </span>
+          <h3>{p.title}</h3>
+          <p>{p.body}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(20px, 2.5vw, 36px); }
+
+  .why-card {
+    padding: clamp(24px, 2.4vw, 34px); border-radius: var(--r-lg);
+    background: var(--surface); border: 1px solid var(--line);
+    transition: transform .3s ease, box-shadow .3s ease;
+  }
+  .why-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+
+  .why-ico {
+    display: grid; place-items: center; width: 52px; height: 52px; border-radius: 14px;
+    background: var(--accent-tint); color: var(--accent-strong); margin-bottom: 18px;
+  }
+  .why-card h3 { font-size: 1.28rem; color: var(--ink); }
+  .why-card p { margin-top: 10px; color: var(--slate); font-size: .99rem; line-height: 1.62; }
+
+  @media (max-width: 860px) { .why-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { .why-grid { grid-template-columns: 1fr; } }
+</style>

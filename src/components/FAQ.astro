@@ -1,0 +1,82 @@
+---
+import { faqs, business } from '../data/site';
+---
+
+<section class="section section--sand faq grid-bg" id="faq">
+  <div class="container grid">
+    <aside class="intro" data-reveal>
+      <p class="eyebrow">Frequently asked questions</p>
+      <h2>The things homeowners <span class="hl">ask us first</span></h2>
+      <p class="lede">Straight answers, no runaround. If yours isn’t here, just call and ask.</p>
+      <a class="btn" href={`tel:${business.phoneHref}`}>
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
+        Call {business.phone}
+      </a>
+    </aside>
+
+    <div class="list">
+      {faqs.map((f, i) => (
+        <details name="faq" data-reveal style={`transition-delay:${(i % 3) * 0.05}s`} open={i === 0}>
+          <summary>
+            <span>{f.q}</span>
+            <span class="sign" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+            </span>
+          </summary>
+          <div class="answer"><p>{f.a}</p></div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .grid { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(36px, 5vw, 72px); align-items: start; }
+  .intro { position: sticky; top: 100px; }
+  .intro h2 { margin-top: 16px; }
+  .intro .lede { margin-top: 16px; }
+  .intro .btn { margin-top: 26px; }
+
+  .list { display: grid; gap: 0; }
+  details {
+    border-top: 1px solid var(--line);
+    transition: opacity .7s, transform .7s; /* keep reveal */
+  }
+  details:last-child { border-bottom: 1px solid var(--line); }
+  summary {
+    list-style: none; cursor: pointer; padding: 22px 0;
+    display: flex; align-items: center; justify-content: space-between; gap: 1.2rem;
+    font-family: var(--font-head); font-size: clamp(1.1rem, 1.7vw, 1.32rem); color: var(--ink);
+    transition: color .2s;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary:hover { color: var(--accent-strong); }
+  .sign {
+    flex: none; width: 34px; height: 34px; border-radius: 50%;
+    display: grid; place-items: center; background: var(--surface); border: 1px solid var(--line);
+    color: var(--ink); transition: transform .3s ease, background .2s, color .2s;
+  }
+  details[open] .sign { transform: rotate(45deg); background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+
+  .answer { overflow: hidden; padding-bottom: 24px; padding-right: clamp(0px, 6vw, 56px); }
+  .answer p { color: var(--slate); line-height: 1.7; }
+
+  /* smooth open/close: animate the disclosure content height */
+  details::details-content {
+    block-size: 0;
+    overflow: clip;
+    transition: block-size .38s cubic-bezier(.2,.7,.2,1), content-visibility .38s allow-discrete;
+  }
+  details[open]::details-content { block-size: auto; }
+  details[open] .answer p { animation: faqFade .42s ease; }
+  @keyframes faqFade { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    details::details-content { transition: none; }
+    details[open] .answer p { animation: none; }
+  }
+
+  @media (max-width: 860px) {
+    .grid { grid-template-columns: 1fr; }
+    .intro { position: static; }
+  }
+</style>

@@ -1,0 +1,138 @@
+---
+import { contact, business, services } from '../data/site';
+---
+
+<section class="section contact grid-bg" id="quote">
+  <div class="container grid">
+    <div class="info" data-reveal>
+      <p class="eyebrow">{contact.eyebrow}</p>
+      <h2 set:html={contact.h2}></h2>
+      <p class="lede">{contact.sub}</p>
+
+      <ul class="details">
+        <li>
+          <span class="ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></svg></span>
+          <div><span class="k">Call us</span><a href={`tel:${business.phoneHref}`}>{business.phone}</a></div>
+        </li>
+        <li>
+          <span class="ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><path d="m22 7-10 5L2 7"/></svg></span>
+          <div><span class="k">Email</span><a href={`mailto:${business.email}`}>{business.email}</a></div>
+        </li>
+        <li>
+          <span class="ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>
+          <div><span class="k">Hours</span>{business.hours.map((h) => <span class="hr">{h.days}: {h.time}</span>)}</div>
+        </li>
+      </ul>
+
+    </div>
+
+    <!-- Netlify-ready form. For the demo, data-demo intercepts the submit
+         and shows the success state. See HANDOFF.md to connect it live. -->
+    <form
+      class="quote-form"
+      data-quote-form
+      data-demo="true"
+      name="quote"
+      method="POST"
+      action="#quote"
+      data-netlify="true"
+      netlify-honeypot="bot-field"
+    >
+      <input type="hidden" name="form-name" value="quote" />
+      <p class="hp"><label>Don’t fill this in <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+
+      <div class="field">
+        <label for="name">Your name</label>
+        <input id="name" name="name" type="text" required autocomplete="name" placeholder="Jordan Smith" />
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="phone">Phone</label>
+          <input id="phone" name="phone" type="tel" required autocomplete="tel" placeholder="0412 345 678" />
+        </div>
+        <div class="field">
+          <label for="suburb">Suburb</label>
+          <input id="suburb" name="suburb" type="text" required placeholder="Bentleigh" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="service">What do you need?</label>
+        <div class="select-wrap">
+          <select id="service" name="service" required>
+            <option value="" disabled selected>Choose a service</option>
+            {services.map((s) => <option value={s.title}>{s.title}</option>)}
+            <option value="Something else">Something else</option>
+          </select>
+          <svg class="chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="message">A few details</label>
+        <textarea id="message" name="message" rows="3" placeholder="Old driveway about 6m x 5m, cracked and lifting. Keen on exposed aggregate."></textarea>
+      </div>
+
+      <button class="btn btn--primary submit" type="submit">
+        Request my free quote
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+
+      <p class="consent">By sending this you agree we can use your details to reply about your quote. We won’t share them or add you to any list.</p>
+
+      <div class="success" data-form-success hidden role="status">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        <p><strong>Thanks, we’ve got it.</strong> We’ll call you back within one business day to book your on-site quote.</p>
+      </div>
+    </form>
+  </div>
+</section>
+
+<style>
+  .grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(36px, 5vw, 72px); align-items: start; }
+  .info h2 { margin-top: 16px; }
+  .info .lede { margin-top: 16px; }
+
+  .details { list-style: none; padding: 0; margin: 32px 0 0; display: grid; gap: 18px; }
+  .details li { display: grid; grid-template-columns: auto 1fr; gap: 1rem; align-items: start; }
+  .details .ico { width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center; background: var(--accent-tint); color: var(--accent-strong); }
+  .details .k { display: block; font-size: .78rem; text-transform: uppercase; letter-spacing: .12em; color: var(--mist); margin-bottom: 2px; }
+  .details a { font-weight: 600; font-size: 1.1rem; }
+  .details a:hover { color: var(--accent-strong); }
+  .details .hr { display: block; font-size: .96rem; color: var(--graphite); }
+
+
+  /* form card */
+  .quote-form {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg);
+    padding: clamp(24px, 3vw, 40px); box-shadow: var(--shadow); display: grid; gap: 18px;
+  }
+  .hp { position: absolute; left: -9999px; }
+  .field { display: grid; gap: 7px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  label { font-weight: 600; font-size: .92rem; color: var(--ink-2); }
+  input, select, textarea {
+    width: 100%; padding: .85rem 1rem; border-radius: var(--r-sm);
+    border: 1.5px solid var(--line); background: var(--bg); color: var(--ink);
+    transition: border-color .2s, box-shadow .2s, background .2s;
+  }
+  input::placeholder, textarea::placeholder { color: #a8aab0; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); background: #fff; box-shadow: var(--ring); }
+  textarea { resize: vertical; min-height: 92px; }
+
+  .select-wrap { position: relative; }
+  .select-wrap select { appearance: none; padding-right: 2.6rem; cursor: pointer; }
+  .select-wrap .chev { position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); color: var(--graphite); pointer-events: none; }
+
+  .submit { width: 100%; margin-top: 4px; }
+  .consent { font-size: .82rem; color: var(--mist); line-height: 1.5; text-align: center; }
+
+  .quote-form.is-sent > *:not([data-form-success]) { display: none; }
+  .success { display: flex; gap: .9rem; align-items: flex-start; padding: 4px; color: var(--ink); }
+  .success svg { flex: none; width: 40px; height: 40px; padding: 9px; border-radius: 50%; background: #e7f4ec; color: #1f8a4c; }
+  .success p { line-height: 1.55; }
+
+  @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
+  @media (max-width: 460px) { .row { grid-template-columns: 1fr; } }
+</style>

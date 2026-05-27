@@ -1,0 +1,22 @@
+---
+// Plain Google Maps embed (no API key) centred on Melbourne. For production,
+// the official Maps Embed API with a key is more robust — see HANDOFF.md.
+const mapSrc = 'https://www.google.com/maps?q=Melbourne,Victoria,Australia&z=11&output=embed';
+---
+
+<section class="map-band" aria-label="Map of Melbourne">
+  <iframe
+    class="map-frame"
+    title="Map of Melbourne, Victoria"
+    src={mapSrc}
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"
+  ></iframe>
+</section>
+
+<style>
+  .map-band { line-height: 0; border-top: 1px solid var(--line); }
+  .map-frame {
+    display: block; width: 100%; height: clamp(260px, 30vw, 360px); border: 0;
+  }
+</style>
