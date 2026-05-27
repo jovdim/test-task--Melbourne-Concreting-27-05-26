@@ -237,7 +237,7 @@ export const projects: Project[] = [
   { image: svcPathway, alt: 'Brushed concrete pathway beside a flowering garden bed in Box Hill' },
   { image: gallery5, alt: 'Concrete pool surround in a landscaped Brighton backyard' },
   { image: gallery7, alt: 'Exposed aggregate concrete pool surround and deck in Bentleigh' },
-  { image: gallery8, alt: 'Close-up of a finished exposed aggregate concrete surface, Hawthorn' },
+  { image: gallery8, alt: 'Freshly poured concrete driveway and apron leading up to a family home, Hawthorn' },
 ];
 
 /* ---------- testimonials ----------
