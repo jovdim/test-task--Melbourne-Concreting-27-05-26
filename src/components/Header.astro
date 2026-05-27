@@ -44,16 +44,25 @@ const phoneIcon =
   .site-header {
     position: fixed; inset: 0 0 auto 0; z-index: 100;
     color: #fff;
-    transition: background .3s ease, box-shadow .3s ease, color .3s ease, backdrop-filter .3s ease;
+    transition: color .3s ease;
   }
-  .bar { display: flex; align-items: center; gap: 1rem; height: 78px; }
-
-  .site-header.is-scrolled {
+  /* The frosted scrolled-bar background lives on a pseudo-element, NOT on
+     .site-header itself. backdrop-filter on the header element would make it
+     the containing block for the position:fixed mobile menu (a child of the
+     header), so once the page was scrolled the menu mis-sized against the
+     78px bar and let the page bleed through. A pseudo-element has no such
+     effect on its host's other descendants. */
+  .site-header::before {
+    content: ""; position: absolute; inset: 0; z-index: -1;
     background: rgba(250, 248, 244, .9);
     backdrop-filter: saturate(1.2) blur(10px);
     box-shadow: 0 1px 0 var(--line), var(--shadow-sm);
-    color: var(--ink);
+    opacity: 0; transition: opacity .3s ease;
   }
+  .bar { display: flex; align-items: center; gap: 1rem; height: 78px; }
+
+  .site-header.is-scrolled { color: var(--ink); }
+  .site-header.is-scrolled::before { opacity: 1; }
 
   /* brand */
   .brand { display: inline-flex; align-items: center; gap: .7rem; margin-right: auto; }
